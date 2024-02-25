@@ -7,8 +7,8 @@
   "config_flow": true,
   "requirements": ["pyemvue==0.18.1"],
   "documentation": "https://github.com/kennethroe/vehiclevue",
+  "integration_type": "hub",
   "issue_tracker": "https://github.com/kennethroe/vehiclevue/issues",
   "dependencies": [],
   "codeowners": "@kennethroe"
 }
-
