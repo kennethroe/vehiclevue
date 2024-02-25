@@ -7,14 +7,6 @@ import dateutil.relativedelta
 import logging
 
 from pyemvue import PyEmVue
-from pyemvue.device import (
-    VueDevice,
-    VueDeviceChannel,
-    VueUsageDevice,
-    VueDeviceChannelUsage,
-)
-from pyemvue.enums import Scale
-from pyemvue.device import ChargerDevice, VueDevice, OutletDevice, VueDeviceChannel, VueDeviceChannelUsage, VueUsageDevice, ChannelType
 
 import re
 import requests
@@ -27,11 +19,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers import entity_registry as er
-from homeassistant.helpers.update_coordinator import CoordinatorEntity, DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, VUE_DATA
-
-SCAN_INTERVAL=900
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -81,7 +70,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     email = entry_data[CONF_EMAIL]
     password = entry_data[CONF_PASSWORD]
 
-    _LOGGER.error('Setting up Vue client for user %s', email)
+    _LOGGER.info('Setting up Vue client for user ${email}')
 
     vue = PyEmVue()
     loop = asyncio.get_event_loop()

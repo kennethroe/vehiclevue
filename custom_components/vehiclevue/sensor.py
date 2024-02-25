@@ -24,6 +24,8 @@ SCAN_INTERVAL = timedelta(seconds=UPDATE_INTERVAL_SECONDS)
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 
+device_information: dict[int, Vehicle] = {}  # data is the populated device objects
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigEntry,
@@ -39,6 +41,7 @@ async def async_setup_entry(
     vehicleSensors = []
     for vehicle in vehicles: 
         vehicleSensors.append(VehicleSensor(vue, vehicle))
+        device_information[vehicle.vehicle_gid] = vehicle
 
     async_add_entities(vehicleSensors, True)
     _LOGGER.info("Monitoring ${len(vehicleSensors)} vehicles")
@@ -73,3 +76,19 @@ class VehicleSensor(SensorEntity, PyEmVue, Vehicle):
     @property 
     def extra_state_attributes(self) -> str: 
         return  self.extra_attributes
+
+    @property
+    def unique_id(self):
+        """Unique ID for the vehicle"""
+        return f"sensor.vehiclevue.{self.vehicle.vehicle_gid}"
+
+    @property
+    def device_info(self):
+        """Return device information about this entity."""
+        return {
+            "identifiers": {
+                # Unique identifiers within a specific domain
+                (DOMAIN, self.vehicle.vehicle_gid)
+            },
+            "name": self.vehicle.display_name
+        }
