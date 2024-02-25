@@ -1,0 +1,14 @@
+{
+  "domain": "vehiclevue",
+  "name": "Emporia Vehicle Vue",
+  "version": "0.0.1",
+  "loggers": ["custom_components.vehiclevue"], 
+  "iot_class": "cloud_polling",
+  "config_flow": true,
+  "requirements": ["pyemvue==0.18.1"],
+  "documentation": "https://github.com/kennethroe/vehiclevue",
+  "issue_tracker": "https://github.com/kennethroe/vehiclevue/issues",
+  "dependencies": [],
+  "codeowners": "@kennethroe"
+}
+
