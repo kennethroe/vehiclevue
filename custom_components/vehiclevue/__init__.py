@@ -1,24 +1,15 @@
 """The Emporia Vue integration."""
 import asyncio
-from datetime import datetime, timedelta, timezone
-from typing import Any, Optional
-import dateutil.tz
-import dateutil.relativedelta
 import logging
+import voluptuous as vol
 
 from pyemvue import PyEmVue
-
-import re
-import requests
-
-import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers import entity_registry as er
 
 from .const import DOMAIN, VUE_DATA
 
@@ -34,10 +25,9 @@ CONFIG_SCHEMA = vol.Schema(
     extra=vol.ALLOW_EXTRA,
 )
 
-_LOGGER = logging.getLogger(__name__)
-
 PLATFORMS = ["sensor"]
 
+_LOGGER = logging.getLogger(__name__)
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the Emporia Vue component."""
