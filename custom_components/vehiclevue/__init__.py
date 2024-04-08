@@ -58,7 +58,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     _LOGGER.info('Setting up Vue client for user ${email}')
 
-    vue = PyEmVue()
+    vue = PyEmVue(read_timeout=12)
     loop = asyncio.get_event_loop()
     try:
         result = await loop.run_in_executor(None, vue.login, email, password)
