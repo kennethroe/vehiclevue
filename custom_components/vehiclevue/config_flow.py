@@ -32,7 +32,7 @@ async def validate_input(hass: core.HomeAssistant, data):
     # Return data to store in the config entry.
     return {
         "title": f"Emporia User {data[CONF_EMAIL]}",
-        "gid": f"{hub.vue.customer.customer_gid}",
+        "gid": f"{vue.customer.customer_gid}",
     }
 
 
