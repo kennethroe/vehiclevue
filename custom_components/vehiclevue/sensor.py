@@ -52,6 +52,7 @@ class VehicleSensor(SensorEntity):
     """Representation of a Vehicle Battery Sensor."""
     _attr_device_class = SensorDeviceClass.BATTERY
     _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_suggested_display_precision = 0
 
     def __init__(self, vueC, v):
        # Creates a sensor for the vehicle.
