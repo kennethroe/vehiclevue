@@ -18,44 +18,26 @@ DATA_SCHEMA = vol.Schema(
 )
 
 
-class VueHub:
-    """Hub for the Emporia Vue Integration."""
-
-    def __init__(self):
-        """Initialize."""
-        self.vue = PyEmVue()
-        pass
-
-    async def authenticate(self, username, password) -> bool:
-        """Test if we can authenticate with the host."""
-        loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(None, self.vue.login, username, password)
-        return result
-
-
 async def validate_input(hass: core.HomeAssistant, data):
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
     """
-    hub = VueHub()
-    if not await hub.authenticate(data[CONF_EMAIL], data[CONF_PASSWORD]):
+    vue = PyEmVue()
+    loop = asyncio.get_event_loop()    
+    result = await loop.run_in_executor(None, vue.login, data[CONF_EMAIL], data[CONF_PASSWORD])
+    if not result:
         raise InvalidAuth
-
-    # If you cannot connect:
-    # throw CannotConnect
-    # If the authentication is wrong:
-    # InvalidAuth
-
-    # Return info that you want to store in the config entry.
+    
+    # Return data to store in the config entry.
     return {
-        "title": f"Customer {hub.vue.customer.customer_gid}",
+        "title": f"Emporia User {data[CONF_EMAIL]}",
         "gid": f"{hub.vue.customer.customer_gid}",
     }
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain="vehiclevue"):
-    """Handle a config flow for Emporia Vue."""
+    """Handle a config flow for Emporia Vue settings."""
 
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
@@ -75,7 +57,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain="vehiclevue"):
                 errors["base"] = "cannot_connect"
             except InvalidAuth:
                 errors["base"] = "invalid_auth"
-            except Exception:  # pylint: disable=broad-except
+            except Exception:  
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = "unknown"
 
@@ -86,7 +68,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain="vehiclevue"):
 
 class CannotConnect(exceptions.HomeAssistantError):
     """Error to indicate we cannot connect."""
-
 
 class InvalidAuth(exceptions.HomeAssistantError):
     """Error to indicate there is invalid auth."""

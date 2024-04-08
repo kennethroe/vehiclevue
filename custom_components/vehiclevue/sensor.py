@@ -1,7 +1,6 @@
-from pyemvue import pyemvue, device
+from pyemvue import PyEmVue, pyemvue, device
 import json, datetime, asyncio
 from datetime import datetime, timedelta
-from pyemvue import PyEmVue
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.config_entries import ConfigEntry
 from pyemvue.device import Vehicle, VehicleStatus
@@ -31,39 +30,40 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-
     """Add vehicles in HA."""
+
+    # Get the Vue client that was set up in __init__.py.
     vue: PyEmVue = hass.data[DOMAIN][config_entry.entry_id][VUE_DATA]
 
+    # Get the vehicles configured in the Emporia account.
     loop = asyncio.get_event_loop()
     vehicles = await loop.run_in_executor(None, vue.get_vehicles)
 
+    # Set up sensors for each vehicle.
     vehicleSensors = []
     for vehicle in vehicles: 
         vehicleSensors.append(VehicleSensor(vue, vehicle))
         device_information[vehicle.vehicle_gid] = vehicle
-
     async_add_entities(vehicleSensors, True)
     _LOGGER.info("Monitoring ${len(vehicleSensors)} vehicles")
 
-class VehicleSensor(SensorEntity, PyEmVue, Vehicle):
 
+class VehicleSensor(SensorEntity):
     """Representation of a Vehicle Battery Sensor."""
     _attr_device_class = SensorDeviceClass.BATTERY
     _attr_state_class = SensorStateClass.MEASUREMENT
 
     def __init__(self, vueC, v):
+       # Creates a sensor for the vehicle.
        self.vue = vueC
        self.vehicle = v
 
     def update(self) -> None:
-	
-        # Fetch status from Vue client. 
+        # Update battery level and additional attributes from Emporia API.
         lastVehicleStatus  = self.vue.get_vehicle_status(self.vehicle.vehicle_gid)
         self.battery_level = lastVehicleStatus.battery_level 
-        self.extra_attributes = lastVehicleStatus.as_dictionary()
-      
-        _LOGGER.info("Fetched vehicle status - battery level ${lastVehicleStatus.battery_level}")
+        self.extra_attributes = lastVehicleStatus.as_dictionary()      
+        _LOGGER.debug("Fetched vehicle status for vehicle ${self.vehicle} - battery level ${lastVehicleStatus.battery_level}")
 
     @property
     def native_value(self) -> str | None:

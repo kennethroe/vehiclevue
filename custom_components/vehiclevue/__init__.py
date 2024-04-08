@@ -30,10 +30,9 @@ PLATFORMS = ["sensor"]
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup(hass: HomeAssistant, config: dict):
-    """Set up the Emporia Vue component."""
+
     hass.data.setdefault(DOMAIN, {})
     conf = config.get(DOMAIN)
-
     if not conf:
         return True
 
@@ -53,9 +52,6 @@ async def async_setup(hass: HomeAssistant, config: dict):
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up Emporia Vue from a config entry."""
-    global VEHICLE_INFORMATION
-    VEHICLE_INFORMATION = {}
-
     entry_data = entry.data
     email = entry_data[CONF_EMAIL]
     password = entry_data[CONF_PASSWORD]
@@ -68,7 +64,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         result = await loop.run_in_executor(None, vue.login, email, password)
         if not result:
             raise Exception("Could not authenticate with Emporia API")
-        _LOGGER.info("Logged in ${email}")
+        _LOGGER.debug("Logged in ${email}")
     except Exception:
         _LOGGER.error("Could not authenticate with Emporia API")
         return False
