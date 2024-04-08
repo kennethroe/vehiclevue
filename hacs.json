@@ -1,6 +1,6 @@
 {
     "name": "Emporia Vehicle Vue",
-    "render_readme": true,
+    "content_in_root": false,
+    "render_readme": false,
     "homeassistant": "2021.9.0",
-    "content_in_root": false
 }
