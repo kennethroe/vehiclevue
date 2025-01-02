@@ -1,7 +1,7 @@
 from pyemvue import PyEmVue, pyemvue, device
 import json, datetime, asyncio
 from datetime import datetime, timedelta
-from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
+from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, PERCENTAGE
 from homeassistant.config_entries import ConfigEntry
 from pyemvue.device import Vehicle, VehicleStatus
 from homeassistant.components.sensor import (
@@ -53,6 +53,7 @@ class VehicleSensor(SensorEntity):
     _attr_device_class = SensorDeviceClass.BATTERY
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_suggested_display_precision = 0
+    _attr_native_unit_of_measurement = PERCENTAGE    
 
     def __init__(self, vueC, v):
        # Creates a sensor for the vehicle.
