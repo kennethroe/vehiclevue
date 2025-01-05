@@ -1,18 +1,16 @@
 from pyemvue import PyEmVue, pyemvue, device
+from pyemvue.device import Vehicle, VehicleStatus
 import json, datetime, asyncio
 from datetime import datetime, timedelta
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, PERCENTAGE
 from homeassistant.config_entries import ConfigEntry
-from pyemvue.device import Vehicle, VehicleStatus
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
-    PLATFORM_SCHEMA,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from datetime import timedelta
 import logging
 
