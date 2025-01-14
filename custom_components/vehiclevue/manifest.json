@@ -1,7 +1,7 @@
 {
   "domain": "vehiclevue",
   "name": "Emporia Vehicle Vue",
-  "codeowners": ["@kennethroe"]  
+  "codeowners": ["@kennethroe"],  
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/kennethroe/vehiclevue",
