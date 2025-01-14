@@ -13,5 +13,9 @@ This integration is not affiliated with or approved by Emporia - but makes their
 
 <a href="https://my.home-assistant.io/redirect/config_flow_start?domain=vehiclevue" class="my badge" target="_blank"><img src="https://my.home-assistant.io/badges/config_flow_start.svg"></a>
 
-**Example:**
-<img width="1063" alt="image" src="https://github.com/user-attachments/assets/a9b8030d-703a-4262-8f63-6b20af18cf1a" />
+------
+
+### Example:
+
+<img width="840" alt="image" src="https://github.com/user-attachments/assets/3c4161b3-5858-49a9-91e9-f3c2e1fc32cd" />
+
