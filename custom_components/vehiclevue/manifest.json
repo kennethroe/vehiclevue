@@ -10,5 +10,5 @@
   "integration_type": "hub",
   "issue_tracker": "https://github.com/kennethroe/vehiclevue/issues",
   "dependencies": [],
-  "codeowners": "@kennethroe"
+  "codeowners": "kennethroe"
 }
