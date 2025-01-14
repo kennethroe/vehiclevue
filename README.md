@@ -1,4 +1,4 @@
-# Emporia Vehivle Vue - Home Assistant Integration
+# Emporia Vehicle Vue - Home Assistant Integration
 
 Creates a "battery" device sensor in Home Assistant to track vehicles configured in the Emporia system.  
 
